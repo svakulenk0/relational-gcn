@@ -83,8 +83,9 @@ for i in range(len(A)):
     D_inv = sp.diags(d_inv)
     A[i] = D_inv.dot(A[i]).tocsr()
 
-A_in = [InputAdj(sparse=True) for _ in range(support)]
+# A_in = [InputAdj(sparse=True) for _ in range(support)]
 # X_in = Input(shape=(X.shape[1],), sparse=True)
+A_in = [InputAdj() for _ in range(support)]
 X_in = Input(shape=(X.shape[1],))
 
 # Define model architecture
