@@ -84,7 +84,8 @@ for i in range(len(A)):
     A[i] = D_inv.dot(A[i]).tocsr()
 
 A_in = [InputAdj(sparse=True) for _ in range(support)]
-X_in = Input(shape=(X.shape[1],), sparse=True)
+# X_in = Input(shape=(X.shape[1],), sparse=True)
+X_in = Input(shape=(X.shape[1],))
 
 # Define model architecture
 H = GraphConvolution(HIDDEN, support, num_bases=BASES, featureless=True,
