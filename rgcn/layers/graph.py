@@ -1,6 +1,6 @@
 from __future__ import print_function
 
-from keras import activations, initializations
+from keras import activations, initializers
 from keras import regularizers
 from keras.engine import Layer
 from keras.layers import Dropout
@@ -13,7 +13,7 @@ class GraphConvolution(Layer):
                  init='glorot_uniform', activation='linear',
                  weights=None, W_regularizer=None, num_bases=-1,
                  b_regularizer=None, bias=False, dropout=0., **kwargs):
-        self.init = initializations.get(init)
+        self.init = initializers.get(init)
         self.activation = activations.get(activation)
         self.output_dim = output_dim  # number of features per node
         self.support = support  # filter support / number of weights
