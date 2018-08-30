@@ -31,6 +31,8 @@ class InputLayerAdj(InputLayer):
         self._non_trainable_weights = []
         self.constraints = {}
 
+        self.is_placeholder = True
+
         self.sparse = sparse
 
         if not name:
