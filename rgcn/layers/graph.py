@@ -38,7 +38,7 @@ class GraphConvolution(Layer):
 
         super(GraphConvolution, self).__init__(**kwargs)
 
-    def get_output_shape_for(self, input_shapes):
+    def compute_output_shape(self, input_shapes):
         features_shape = input_shapes[0]
         output_shape = (features_shape[0], self.output_dim)
         return output_shape  # (batch_size, output_dim)
