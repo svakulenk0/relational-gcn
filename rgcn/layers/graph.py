@@ -9,7 +9,7 @@ import keras.backend as K
 
 
 class GraphConvolution(Layer):
-    def __init__(self, output_dim, support=1, featureless=False,
+    def __init__(self, output_dim, A, support=1, featureless=False,
                  init='glorot_uniform', activation='linear',
                  weights=None, W_regularizer=None, num_bases=-1,
                  b_regularizer=None, bias=False, dropout=0., **kwargs):
@@ -19,6 +19,8 @@ class GraphConvolution(Layer):
         self.support = support  # filter support / number of weights
         self.featureless = featureless  # use/ignore input features
         self.dropout = dropout
+
+        self.A = A
 
         assert support >= 1
 
@@ -80,15 +82,15 @@ class GraphConvolution(Layer):
 
     def call(self, inputs, mask=None):
         features = inputs[0]
-        A = inputs[1:]  # list of basis functions
+        # A = inputs[1:]  # list of basis functions
 
         # convolve
         supports = list()
         for i in range(self.support):
             if not self.featureless:
-                supports.append(K.dot(A[i], features))
+                supports.append(K.dot(self.A[i], features))
             else:
-                supports.append(A[i])
+                supports.append(self.A[i])
         supports = K.concatenate(supports, axis=1)
 
         if self.num_bases > 0:
