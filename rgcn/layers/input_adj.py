@@ -8,7 +8,7 @@ def InputAdj(name=None, dtype=K.floatx(), sparse=False,
     shape = (None, None)
     input_layer = InputLayerAdj(batch_input_shape=shape,
                                 name=name, sparse=sparse, input_dtype=dtype)
-    outputs = input_layer.inbound_nodes[0].output_tensors
+    outputs = input_layer._inbound_nodes[0].output_tensors
     if len(outputs) == 1:
         return outputs[0]
     else:
