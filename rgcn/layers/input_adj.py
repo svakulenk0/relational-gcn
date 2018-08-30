@@ -1,4 +1,4 @@
-from keras.layers import Layer
+from keras.layers import InputLayer
 from keras.engine.topology import Node
 import keras.backend as K
 
@@ -15,7 +15,7 @@ def InputAdj(name=None, dtype=K.floatx(), sparse=False,
         return outputs
 
 
-class InputLayerAdj(Layer):
+class InputLayerAdj(InputLayer):
     def __init__(self, input_shape=None, batch_input_shape=None,
                  input_dtype=None, sparse=False, name=None):
         self.input_spec = None
