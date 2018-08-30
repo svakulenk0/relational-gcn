@@ -22,13 +22,13 @@ class InputLayerAdj(InputLayer):
         self.supports_masking = False
         self.uses_learning_phase = False
         self.trainable = False
-        self.built = True
+        self._built = True
 
-        self.inbound_nodes = []
-        self.outbound_nodes = []
+        self._inbound_nodes = []
+        self._outbound_nodes = []
 
-        self.trainable_weights = []
-        self.non_trainable_weights = []
+        self._trainable_weights = []
+        self._non_trainable_weights = []
         self.constraints = {}
 
         self.sparse = sparse
