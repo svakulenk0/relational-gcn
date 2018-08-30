@@ -40,16 +40,14 @@ class GraphConvolution(Layer):
 
         super(GraphConvolution, self).__init__(**kwargs)
 
-    def compute_output_shape(self, input_shapes):
-        features_shape = input_shapes[0]
+    def compute_output_shape(self, features_shape):
         output_shape = (features_shape[0], self.output_dim)
         return output_shape  # (batch_size, output_dim)
 
-    def build(self, input_shapes):
-        features_shape = input_shapes[0]
+    def build(self, features_shape):
         if self.featureless:
             self.num_nodes = features_shape[1]  # NOTE: Assumes featureless input (i.e. square identity mx)
-        assert len(features_shape) == 2
+        # assert len(features_shape) == 2
         self.input_dim = features_shape[1]
 
         if self.num_bases > 0:
