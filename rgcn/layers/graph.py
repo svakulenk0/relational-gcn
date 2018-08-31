@@ -49,6 +49,7 @@ class GraphConvolution(Layer):
         if self.featureless:
             self.num_nodes = features_shape[1]  # NOTE: Assumes featureless input (i.e. square identity mx)
         # assert len(features_shape) == 2
+        # self.input_dim = self.E.shape[0]
         self.input_dim = features_shape[1]
 
         if self.num_bases > 0:
@@ -112,6 +113,9 @@ class GraphConvolution(Layer):
 
         if self.bias:
             output += self.b
+        
+        print("Output computed")
+
         return self.activation(output)
 
     def get_config(self):
