@@ -79,7 +79,7 @@ class GraphConvolution(Layer):
             del self.initial_weights
 
     def call(self, inputs, mask=None):
-        features = inputs
+        features = inputs[0]
         # A = inputs[1:]  # list of basis functions
 
         # convolve
