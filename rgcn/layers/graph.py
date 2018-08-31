@@ -15,15 +15,13 @@ class GraphConvolution(Layer):
                  b_regularizer=None, bias=False, dropout=0., **kwargs):
         self.init = initializers.get(init)
         self.activation = activations.get(activation)
-        
-        # KB as input: E -entities representation, A - relation representation (adjacency matrix) 
-        self.E = E
-        self.A = A
-        # self.output_dim = output_dim  # number of features per node
-        self.output_dim = self.E.shape[0]  # number of features per node
+        self.output_dim = output_dim  # number of features per node
         self.support = support  # filter support / number of weights
         self.featureless = featureless  # use/ignore input features
         self.dropout = dropout
+
+        self.E = E
+        self.A = A
 
         assert support >= 1
 
