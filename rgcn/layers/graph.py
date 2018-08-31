@@ -99,7 +99,7 @@ class GraphConvolution(Layer):
             V = K.reshape(V, (self.support*self.input_dim, self.output_dim))
             output = K.dot(supports, V)
         else:
-            output = K.dot(supports, self.W, name="dot_rgcn")
+            output = K.dot(supports, self.W)
 
         # if featureless add dropout to output, by elementwise multiplying with column vector of ones,
         # with dropout applied to the vector of ones.
