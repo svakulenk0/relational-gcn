@@ -9,13 +9,14 @@ import keras.backend as K
 
 
 class GraphConvolution(Layer):
-    def __init__(self, output_dim, E, A, support=1, featureless=False,
+    def __init__(self, output_dim, hidden_dim, E, A, support=1, featureless=False,
                  init='glorot_uniform', activation='linear',
                  weights=None, W_regularizer=None, num_bases=-1,
                  b_regularizer=None, bias=False, dropout=0., **kwargs):
         self.init = initializers.get(init)
         self.activation = activations.get(activation)
         self.output_dim = output_dim  # number of features per node
+        self.hidden_dim = hidden_dim  # number of features per node
         self.support = support  # filter support / number of weights
         self.featureless = featureless  # use/ignore input features
         self.dropout = dropout
@@ -64,7 +65,7 @@ class GraphConvolution(Layer):
                                           name='{}_W_comp'.format(self.name),
                                           regularizer=self.W_regularizer)
         else:
-            self.W = K.concatenate([self.add_weight((self.input_dim, self.output_dim),
+            self.W = K.concatenate([self.add_weight((self.input_dim, self.hidden_dim),
                                                     initializer=self.init,
                                                     name='{}_W'.format(self.name),
                                                     regularizer=self.W_regularizer) for _ in range(self.support)],
