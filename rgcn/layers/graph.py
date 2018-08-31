@@ -89,6 +89,7 @@ class GraphConvolution(Layer):
         supports = list()
         for i in range(self.support):
             if not self.featureless:
+                self.a[i]=K.print_tensor(self.A[i])
                 supports.append(K.dot(self.A[i], self.E))
             else:
                 supports.append(self.A[i])
@@ -114,8 +115,6 @@ class GraphConvolution(Layer):
         if self.bias:
             output += self.b
         
-        print("Output computed")
-
         return self.activation(output)
 
     def get_config(self):
