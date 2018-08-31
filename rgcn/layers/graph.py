@@ -86,7 +86,7 @@ class GraphConvolution(Layer):
         supports = list()
         for i in range(self.support):
             if not self.featureless:
-                supports.append(K.dot(self.A[i], features))
+                supports.append(K.dot(self.A[i], features).T)
             else:
                 supports.append(self.A[i])
         supports = K.concatenate(supports, axis=1)
@@ -99,7 +99,7 @@ class GraphConvolution(Layer):
             V = K.reshape(V, (self.support*self.input_dim, self.output_dim))
             output = K.dot(supports, V)
         else:
-            output = K.dot(supports, self.W)
+            output = K.dot(supports, self.W, name="dot_rgcn")
 
         # if featureless add dropout to output, by elementwise multiplying with column vector of ones,
         # with dropout applied to the vector of ones.
