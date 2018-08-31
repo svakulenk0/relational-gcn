@@ -15,7 +15,8 @@ class GraphConvolution(Layer):
                  b_regularizer=None, bias=False, dropout=0., **kwargs):
         self.init = initializers.get(init)
         self.activation = activations.get(activation)
-        self.output_dim = output_dim  # number of features per node
+        # self.output_dim = output_dim  # number of features per node
+        self.output_dim = E.shape[0]  # number of features per node
         self.support = support  # filter support / number of weights
         self.featureless = featureless  # use/ignore input features
         self.dropout = dropout
@@ -53,9 +54,9 @@ class GraphConvolution(Layer):
 
         if self.num_bases > 0:
             self.W = K.concatenate([self.add_weight((self.input_dim, self.output_dim),
-                                                    initializer=self.init,
-                                                    name='{}_W'.format(self.name),
-                                                    regularizer=self.W_regularizer) for _ in range(self.num_bases)],
+                                                     initializer=self.init,
+                                                     name='{}_W'.format(self.name),
+                                                     regularizer=self.W_regularizer) for _ in range(self.num_bases)],
                                    axis=0)
 
             self.W_comp = self.add_weight((self.support, self.num_bases),
@@ -81,14 +82,14 @@ class GraphConvolution(Layer):
 
     def call(self, inputs, mask=None):
         # 2 dimensional tensor: batch_size, vector
-        features = inputs
+        # features = inputs
         # A = inputs[1:]  # list of basis functions
 
         # convolve
         supports = list()
         for i in range(self.support):
             if not self.featureless:
-                supports.append(K.dot(self.A[i], features))
+                supports.append(K.dot(inputs, K.dot(self.A[i], self.E).T))
             else:
                 supports.append(self.A[i])
         supports = K.concatenate(supports, axis=1)
