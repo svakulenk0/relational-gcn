@@ -47,8 +47,8 @@ class GraphConvolution(Layer):
     def build(self, features_shape):
         if self.featureless:
             self.num_nodes = features_shape[1]  # NOTE: Assumes featureless input (i.e. square identity mx)
-        # assert len(features_shape) == 2
-        self.input_dim = features_shape[1]
+        # assert len(features_shape) == 3
+        self.input_dim = features_shape[2]
 
         if self.num_bases > 0:
             self.W = K.concatenate([self.add_weight((self.input_dim, self.output_dim),
@@ -86,7 +86,7 @@ class GraphConvolution(Layer):
         supports = list()
         for i in range(self.support):
             if not self.featureless:
-                supports.append(K.dot(self.A[i], features).T)
+                supports.append(K.dot(self.A[i], features))
             else:
                 supports.append(self.A[i])
         supports = K.concatenate(supports, axis=1)
@@ -100,6 +100,7 @@ class GraphConvolution(Layer):
             output = K.dot(supports, V)
         else:
             output = K.dot(supports, self.W)
+            # output = K.print_tensor(output)
 
         # if featureless add dropout to output, by elementwise multiplying with column vector of ones,
         # with dropout applied to the vector of ones.
