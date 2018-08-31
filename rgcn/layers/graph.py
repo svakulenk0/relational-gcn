@@ -15,8 +15,7 @@ class GraphConvolution(Layer):
                  b_regularizer=None, bias=False, dropout=0., **kwargs):
         self.init = initializers.get(init)
         self.activation = activations.get(activation)
-        # self.output_dim = output_dim  # number of features per node
-        self.output_dim = E.shape[0]  # number of features per node
+        self.output_dim = output_dim  # number of features per node
         self.support = support  # filter support / number of weights
         self.featureless = featureless  # use/ignore input features
         self.dropout = dropout
@@ -89,7 +88,7 @@ class GraphConvolution(Layer):
         supports = list()
         for i in range(self.support):
             if not self.featureless:
-                supports.append(K.dot(inputs, K.dot(self.A[i], self.E).T))
+                supports.append(K.dot(self.A[i], self.E))
             else:
                 supports.append(self.A[i])
         supports = K.concatenate(supports, axis=1)
@@ -102,7 +101,7 @@ class GraphConvolution(Layer):
             V = K.reshape(V, (self.support*self.input_dim, self.output_dim))
             output = K.dot(supports, V)
         else:
-            output = K.dot(supports, self.W)
+            output = K.dot(inputs, K.dot(supports, self.W).T)
 
         # if featureless add dropout to output, by elementwise multiplying with column vector of ones,
         # with dropout applied to the vector of ones.
